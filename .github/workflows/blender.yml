@@ -21,9 +21,9 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-          github.commit.createComment({
-            commit_id: context.commit.id,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: 'test text'
-          })
+            github.commit.createComment({
+              commit_id: context.commit.id,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'test text'
+            })
