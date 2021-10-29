@@ -7,4 +7,4 @@ bpy.context.scene.render.engine = 'CYCLES'
 bpy.context.scene.cycles.samples = 64
 
 bpy.ops.render.render()
-bpy.data.images['Render Result'].save_render( filepath = '//render.png')
+bpy.data.images['Render Result'].save_render( filepath = '//export/render.png')

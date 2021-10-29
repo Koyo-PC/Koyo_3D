@@ -11,31 +11,50 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-#      - name: Blender Install
-#        run: sudo snap install blender --classic
-#      - name: Render
-#        run: blender --background -noaudio 3dMap.blend --threads 0 --python ./actions/render.py
+      - name: Blender Install
+        run: sudo snap install blender --classic
+      - name: Change branch
+        run: git checkout actions
+      - name: Render
+        run: blender --background -noaudio 3dMap.blend --threads 0 --python ./actions/render.py
 #        run: blender --background -noaudio 3dMap.blend --threads 0 --render-output //export/out.png --render-resolution 1920x1080
+      - name: Add file to git
+        run: git add -A
+      - name: Add file to git
+        run: git commit -m "Render"
+      - name: git push
+        run: git push origin actions
+      - name: Post comment
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHA: ${{ github.sha }}
+        run: |
+          curl \                                                                                                                                                                                                ─╯
+          -X POST \
+          -H "Authorization: token ${TOKEN}" \
+          https://api.github.com/repos/Koyo-PC/Koyo_3D/commits/${SHA}/comments \
+          -d '{"body":"[render](https://raw.githubusercontent.com/Koyo-PC/Koyo_3D/$(git rev-parse --short HEAD)/export/render.png)"}'
 
-      - uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            console.log("--- a ---");
-            // console.log(github);
-            console.log(context.payload.commits);
-            console.log("--- b ---");
-            // console.log(github.context);
-            console.log(context);
-            console.log("--- c ---");
-            // console.log(github.rest);
-            console.log(github.context.commits);
-            console.log("--- d ---");
-            console.log(context.commits);
-            console.log("--- e ---");
-            github.rest.commit.createComment({
-              commit_id: context.commit.id,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'test text'
-            });
+
+#      - uses: actions/github-script@v3
+#        with:
+#          github-token: ${{secrets.GITHUB_TOKEN}}
+#          script: |
+#            console.log("--- a ---");
+#            // console.log(github);
+#            console.log(context.payload.commits);
+#            console.log("--- b ---");
+#            // console.log(github.context);
+#            console.log(context);
+#            console.log("--- c ---");
+#            // console.log(github.rest);
+#            console.log(github.context.commits);
+#            console.log("--- d ---");
+#            console.log(context.commits);
+#            console.log("--- e ---");
+#            context.payload.commits({
+#              commit_id: context.commit.id,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: 'test text'
+#            });
