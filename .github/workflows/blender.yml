@@ -21,11 +21,17 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            // console.log(github);
+            console.log("--- a ---");
+            console.log(github);
+            console.log("--- b ---");
             // console.log(github.context);
-            // console.log(context);
+            console.log(context);
+            console.log("--- c ---");
             // console.log(github.rest);
+            console.log(github.context.commits);
+            console.log("--- d ---");
             console.log(context.commits);
+            console.log("--- e ---");
             github.rest.commit.createComment({
               commit_id: context.commit.id,
               owner: context.repo.owner,
