@@ -23,7 +23,7 @@ jobs:
           script: |
             console.log("--- a ---");
             // console.log(github);
-            console.log(context.payload.context);
+            console.log(context.payload.commits);
             console.log("--- b ---");
             // console.log(github.context);
             console.log(context);
