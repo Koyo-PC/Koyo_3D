@@ -20,6 +20,10 @@ jobs:
 #        run: blender --background -noaudio 3dMap.blend --threads 0 --render-output //export/out.png --render-resolution 1920x1080
       - name: Add file to git
         run: git add -A
+      - name: Git login
+        run: |
+          git config --local user.email "action@github.com" \
+          git config --local user.name "GitHub Action"
       - name: Add file to git
         run: git commit -m "Render"
       - name: git push
