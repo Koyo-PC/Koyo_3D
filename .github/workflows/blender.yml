@@ -37,6 +37,8 @@ jobs:
             "content": "${base64 ./export/render.png}", \
             "branch": "actions"
           }'
+      - name: save sha
+        run: SHA_IMG=`git rev-parse --short origin/actions/export/render.png`
       - name: Post comment
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,7 +48,7 @@ jobs:
           -X POST \
           -H "Authorization: token ${TOKEN}" \
           https://api.github.com/repos/Koyo-PC/Koyo_3D/commits/${SHA}/comments \
-          -d '{"body":"[render](https://raw.githubusercontent.com/Koyo-PC/Koyo_3D/$(git rev-parse --short origin/actions)/export/render.png)"}'
+          -d '{"body":"[render](https://raw.githubusercontent.com/Koyo-PC/Koyo_3D/${SHA_IMG}/export/render.png)"}'
 
 
 #      - uses: actions/github-script@v3
