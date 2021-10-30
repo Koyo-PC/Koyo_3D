@@ -33,7 +33,7 @@ jobs:
           curl -X PUT -H "Authorization: token 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" \
           https://api.github.com/repos/Koyo-PC/Koyo_3D/contents/export/render.png \
           -d '{ \
-            "message": "my commit message", \
+            "message": "[Actions] render image push", \
             "content": "${base64 ./export/render.png}", \
             "branch": "actions"
           }'
@@ -42,7 +42,7 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SHA: ${{ github.sha }}
         run: |
-          curl \                                                                                                                                                                                                ─╯
+          curl \
           -X POST \
           -H "Authorization: token ${TOKEN}" \
           https://api.github.com/repos/Koyo-PC/Koyo_3D/commits/${SHA}/comments \
