@@ -18,16 +18,25 @@ jobs:
       - name: Render
         run: blender --background -noaudio 3dMap.blend --threads 0 --python ./actions/render.py
 #        run: blender --background -noaudio 3dMap.blend --threads 0 --render-output //export/out.png --render-resolution 1920x1080
-      - name: Add file to git
-        run: git add -A
-      - name: Git login email
-        run: git config --local user.email "action@github.com"
-      - name: Git login name
-        run: git config --local user.name "GitHub Action"
-      - name: Add file to git
-        run: git commit -m "Render"
-      - name: git push
-        run: git push origin actions
+#      - name: Add file to git
+#        run: git add -A
+#      - name: Git login email
+#        run: git config --local user.email "action@github.com"
+#      - name: Git login name
+#        run: git config --local user.name "GitHub Action"
+#      - name: Add file to git
+#        run: git commit -m "Render"
+#      - name: git push
+#        run: git push origin actions
+      - name: Upload image
+        run: |
+          curl -X PUT -H "Authorization: token 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" \
+          https://api.github.com/repos/Koyo-PC/Koyo_3D/contents/export/render.png \
+          -d '{ \
+            "message": "my commit message", \
+            "content": "${base64 ./export/render.png}", \
+            "branch": "actions"
+          }'
       - name: Post comment
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,7 +46,7 @@ jobs:
           -X POST \
           -H "Authorization: token ${TOKEN}" \
           https://api.github.com/repos/Koyo-PC/Koyo_3D/commits/${SHA}/comments \
-          -d '{"body":"[render](https://raw.githubusercontent.com/Koyo-PC/Koyo_3D/$(git rev-parse --short HEAD)/export/render.png)"}'
+          -d '{"body":"[render](https://raw.githubusercontent.com/Koyo-PC/Koyo_3D/$(git rev-parse --short origin/actions)/export/render.png)"}'
 
 
 #      - uses: actions/github-script@v3
